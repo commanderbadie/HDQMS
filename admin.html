@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>DQMS – Admin Panel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: #e5e7eb;
+      padding: 20px;
+    }
+
+    h1, h2 {
+      margin-bottom: 10px;
+    }
+
+    input, select, button {
+      padding: 6px;
+      margin: 4px;
+      background: #020617;
+      color: #e5e7eb;
+      border: 1px solid #334155;
+    }
+
+    /* 🔴 FORCE DATE PICKER VISIBILITY */
+    input[type="date"] {
+      background: #ffffff;
+      color: #000000;
+      border: 2px solid #38bdf8;
+      min-height: 36px;
+    }
+
+    /* Chrome / Edge calendar icon */
+    input[type="date"]::-webkit-calendar-picker-indicator {
+      filter: invert(0);
+      cursor: pointer;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+
+    th, td {
+      border: 1px solid #334155;
+      padding: 8px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    th {
+      background: #1e293b;
+    }
+
+    .danger {
+      background: #dc2626;
+      color: #fff;
+    }
+
+    hr {
+      border: 1px solid #334155;
+      margin: 30px 0;
+    }
+
+    .admin-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .admin-box {
+      border: 1px solid #334155;
+      padding: 15px;
+      background: #020617;
+      max-height: 520px;
+      overflow-y: auto;
+    }
+
+    .calendar-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+
+    label {
+      font-weight: bold;
+      font-size: 14px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>DQMS – Admin Control Panel</h1>
+
+  <!-- WALK-IN QUEUE -->
+  <div class="admin-box">
+    <h2>Walk-In Queue Management</h2>
+
+    <button id="loadBtn">Load Walk-In Queue</button>
+    <button id="callNextBtn">📢 Call Next</button>
+    <button id="resetDayBtn" class="danger">🗑 Reset Walk-In Day</button>
+
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Phone</th>
+          <th>Priority</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="queueTable"></tbody>
+    </table>
+  </div>
+
+  <hr>
+
+  <div class="admin-split">
+
+    <!-- DOCTOR AVAILABILITY -->
+    <div class="admin-box">
+      <h2>Doctor Availability</h2>
+      <div id="doctorAvailability"></div>
+    </div>
+
+    <!-- APPOINTMENT MANAGEMENT -->
+    <div class="admin-box">
+      <h2>Appointment Management</h2>
+
+      <!-- ✅ CLEAR CALENDAR -->
+      <div class="calendar-row">
+        <label for="apptDate">Select Date:</label>
+        <input type="date" id="apptDate" />
+        <button id="loadAppointments">Load Appointments</button>
+        <button id="resetAppointmentsBtn" class="danger">
+          End Day / Reset Appointments
+        </button>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Token</th>
+            <th>Name</th>
+            <th>Time</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="appointmentTable"></tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <script type="module" src="admin.js"></script>
+</body>
+</html>

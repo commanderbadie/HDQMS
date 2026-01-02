@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Email Verification | DQMS</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <main class="page-container">
+
+    <h1 class="page-title">Email Verification</h1>
+    <p class="page-subtitle">
+      Please verify your email address to continue.
+    </p>
+
+    <div class="form-container">
+
+      <!-- EMAIL STEP -->
+      <div id="emailStep">
+        <div class="form-group">
+          <label>Email Address *</label>
+          <input
+            type="email"
+            id="authEmail"
+            placeholder="Enter your email"
+            required
+          />
+        </div>
+
+        <div class="form-action">
+          <button class="primary-btn" id="sendOtpBtn">
+            Send OTP
+          </button>
+        </div>
+
+        <p id="emailMsg" class="email-status"></p>
+      </div>
+
+      <!-- OTP STEP -->
+      <div id="otpStep" style="display:none;">
+        <div class="form-group">
+          <label>Enter OTP *</label>
+          <input
+            type="text"
+            id="otpInput"
+            placeholder="6-digit OTP"
+            maxlength="6"
+          />
+        </div>
+
+        <div class="form-action">
+          <button class="primary-btn" id="verifyOtpBtn">
+            Verify OTP
+          </button>
+        </div>
+
+        <p id="otpMsg" class="email-status"></p>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- EmailJS SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+
+  <!-- Auth Logic -->
+  <script src="auth.js"></script>
+
+</body>
+</html>

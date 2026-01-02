@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Walk-In Patient Registration</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    .form-row {
+      display: flex;
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+
+    .form-group {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 24px;
+    }
+
+    .form-group label {
+      font-size: 14px;
+      margin-bottom: 6px;
+      color: #334155;
+    }
+
+    .form-group input,
+    .form-group select {
+      padding: 12px;
+      font-size: 14px;
+      border-radius: 6px;
+      border: 1px solid var(--border-light);
+    }
+
+    select {
+      appearance: none;
+      background-color: #ffffff;
+      background-image:
+        linear-gradient(45deg, transparent 50%, #555 50%),
+        linear-gradient(135deg, #555 50%, transparent 50%);
+      background-position:
+        calc(100% - 20px) 50%,
+        calc(100% - 15px) 50%;
+      background-size: 5px 5px, 5px 5px;
+      background-repeat: no-repeat;
+    }
+
+    option.unavailable {
+      color: #999;
+    }
+
+    .status-hint {
+      font-size: 13px;
+      color: #5a6b7c;
+      margin-top: 6px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="token-container">
+
+    <h1 class="token-title">Walk-In Patient Registration</h1>
+
+    <p class="subtext">
+      Please enter patient details to generate a walk-in token.
+      Fields marked with <strong>*</strong> are required.
+    </p>
+
+    <div id="formWarning" class="inline-warning" style="display:none;"></div>
+
+    <form id="patientForm">
+
+      <!-- NAME -->
+      <div class="form-row">
+        <div class="form-group">
+          <label>First Name *</label>
+          <input type="text" id="firstName" required />
+        </div>
+
+        <div class="form-group">
+          <label>Middle Name</label>
+          <input type="text" id="middleName" />
+        </div>
+
+        <div class="form-group">
+          <label>Last Name *</label>
+          <input type="text" id="lastName" required />
+        </div>
+      </div>
+
+      <!-- AGE & GENDER -->
+      <div class="form-row">
+        <div class="form-group">
+          <label>Age *</label>
+          <input type="number" id="age" min="0" max="120" required />
+        </div>
+
+        <div class="form-group">
+          <label>Gender *</label>
+          <select id="gender" required>
+            <option value="">Select Gender</option>
+            <option>Male</option>
+            <option>Female</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- DEPARTMENT -->
+      <div class="form-group">
+        <label>Department *</label>
+        <select id="department" required>
+          <option value="">Select Department</option>
+          <option>General Medicine</option>
+          <option>Orthopedics</option>
+          <option>Pediatrics</option>
+          <option>Gynecology</option>
+          <option>Dermatology</option>
+          <option>ENT</option>
+          <option>Cardiology</option>
+          <option>Neurology</option>
+        </select>
+      </div>
+
+      <!-- DOCTOR -->
+      <div class="form-group" id="doctorGroup" style="display:none;">
+        <label>Preferred Doctor *</label>
+        <select id="doctor" required>
+          <option value="">Select Doctor</option>
+        </select>
+        <div class="status-hint">
+          Availability is indicative. Final allocation is handled by hospital staff.
+        </div>
+      </div>
+
+      <!-- PHONE -->
+      <div class="form-group">
+        <label>Mobile Number *</label>
+        <input type="tel" id="phone" placeholder="10-digit mobile number" required />
+      </div>
+
+      <button class="btn btn-primary" type="submit">
+        Generate Token
+      </button>
+
+    </form>
+
+  </main>
+
+  <!-- LOGIC -->
+  <script type="module">
+    import { db } from "./firebase.js";
+    import {
+      ref,
+      set,
+      runTransaction
+    } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
+
+    const warning = document.getElementById("formWarning");
+    const departmentSelect = document.getElementById("department");
+    const doctorGroup = document.getElementById("doctorGroup");
+    const doctorSelect = document.getElementById("doctor");
+
+    /* ===============================
+       LOAD DOCTOR DATA FROM ADMIN
+    =============================== */
+    const doctorsByDepartment =
+      JSON.parse(localStorage.getItem("doctorsData")) || {};
+
+    departmentSelect.addEventListener("change", () => {
+      const dept = departmentSelect.value;
+      doctorSelect.innerHTML = '<option value="">Select Doctor</option>';
+      doctorGroup.style.display = "none";
+
+      if (!doctorsByDepartment[dept]) return;
+
+      doctorsByDepartment[dept].forEach(doc => {
+        const option = document.createElement("option");
+        option.value = doc.name;
+        option.textContent = `${doc.name} — ${doc.status}`;
+
+        if (doc.status === "Unavailable") {
+          option.disabled = true;
+          option.classList.add("unavailable");
+        }
+
+        doctorSelect.appendChild(option);
+      });
+
+      doctorGroup.style.display = "block";
+    });
+
+    /* ===============================
+       SUBMIT FORM
+    =============================== */
+    document.getElementById("patientForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      warning.style.display = "none";
+
+      const first = firstName.value.trim();
+      const middle = middleName.value.trim();
+      const last = lastName.value.trim();
+      const ageVal = age.value;
+      const genderVal = gender.value;
+      const departmentVal = departmentSelect.value;
+      const doctorVal = doctorSelect.value;
+      const phoneVal = phone.value.trim();
+
+      if (!first || !last || !ageVal || !genderVal || !departmentVal || !doctorVal || !phoneVal) {
+        warning.innerText = "Please fill all required fields.";
+        warning.style.display = "block";
+        return;
+      }
+
+      if (!/^[0-9]{10}$/.test(phoneVal)) {
+        warning.innerText = "Please enter a valid 10-digit mobile number.";
+        warning.style.display = "block";
+        return;
+      }
+
+      const fullName = [first, middle, last].filter(Boolean).join(" ");
+
+      try {
+        /* ===============================
+           GENERATE TOKEN (ATOMIC)
+        =============================== */
+        const metaRef = ref(db, "queues/meta");
+
+        const txn = await runTransaction(metaRef, (meta) => {
+          if (!meta) {
+            return { lastTokenNumber: 1, currentServingToken: "T-001" };
+          }
+          meta.lastTokenNumber = (meta.lastTokenNumber || 0) + 1;
+          return meta;
+        });
+
+        const tokenNum = txn.snapshot.val().lastTokenNumber;
+        const token = "T-" + String(tokenNum).padStart(3, "0");
+
+        /* ===============================
+           PUSH TO FIREBASE QUEUE
+        =============================== */
+        await set(ref(db, "queues/walkin/" + token), {
+          token,
+          name: fullName,
+          age: ageVal,
+          gender: genderVal,
+          department: departmentVal,
+          doctor: doctorVal,
+          phone: phoneVal,
+          status: "Waiting",
+          createdAt: Date.now()
+        });
+
+        localStorage.setItem("currentPatient", JSON.stringify({
+          token,
+          name: fullName,
+          age: ageVal,
+          gender: genderVal,
+          department: departmentVal,
+          doctor: doctorVal,
+          phone: phoneVal
+        }));
+
+        window.location.href = "token.html";
+
+      } catch (err) {
+        console.error(err);
+        warning.innerText = "Unable to generate token. Please try again.";
+        warning.style.display = "block";
+      }
+    });
+  </script>
+
+</body>
+</html>

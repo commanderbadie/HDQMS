@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Book Appointment | DQMS</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <main class="page-container">
+
+    <h1 class="page-title">Book Appointment</h1>
+    <p class="page-subtitle">
+      Please enter appointment details to schedule a visit.
+    </p>
+
+    <form id="appointmentForm" class="form-container">
+
+      <!-- ROW 1 -->
+      <div class="form-row three">
+        <div class="form-group">
+          <label>Full Name *</label>
+          <input type="text" id="patientName" required />
+        </div>
+
+        <div class="form-group">
+          <label>Email *</label>
+          <input type="email" id="patientEmail" required />
+        </div>
+
+        <div class="form-group">
+          <label>Phone Number *</label>
+          <input type="tel" id="patientPhone" required />
+        </div>
+      </div>
+
+      <!-- ROW 2 -->
+      <div class="form-row two">
+        <div class="form-group">
+          <label>Department *</label>
+          <select id="department" required>
+            <option value="">Select Department</option>
+            <option>General</option>
+            <option>Cardiology</option>
+            <option>Orthopedics</option>
+            <option>Dermatology</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Doctor *</label>
+          <select id="doctor" required>
+            <option value="">Select Doctor</option>
+            <option>Dr. Smith</option>
+            <option>Dr. Patel</option>
+            <option>Dr. Khan</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- ROW 3 -->
+      <div class="form-row two">
+        <div class="form-group">
+          <label>Select Date *</label>
+          <input type="date" id="appointmentDate" required />
+        </div>
+
+        <div class="form-group">
+          <label>Select Time Slot *</label>
+          <select id="timeSlot" disabled required>
+            <option value="">Select date first</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- ACTION -->
+      <div class="form-action">
+        <button
+          type="submit"
+          class="primary-btn"
+          id="confirmBtn"
+          disabled>
+          Confirm Appointment
+        </button>
+      </div>
+
+    </form>
+
+    <!-- CONFIRMATION -->
+    <section id="confirmationBox" class="confirmation-box" style="display:none;">
+      <h2>Appointment Confirmed</h2>
+      <p id="confirmToken"></p>
+      <p id="confirmDate"></p>
+      <p id="confirmTime"></p>
+
+      <p class="confirmation-note">
+        Please take a screenshot of this confirmation for your reference.
+      </p>
+
+      <button class="secondary-btn" id="openConfirmTab">
+        Open Confirmation Page
+      </button>
+    </section>
+
+  </main>
+
+  <script type="module" src="book.js"></script>
+</body>
+</html>

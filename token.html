@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Walk-In Token</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <main class="token-container">
+
+    <h1 class="token-title">Walk-In Token Issued</h1>
+
+    <!-- PATIENT SUMMARY -->
+    <div class="status-item" style="margin-bottom:32px; text-align:left;">
+      <strong>Patient Details</strong><br><br>
+
+      <div id="patientName"></div>
+      <div id="patientAgeGender"></div>
+      <div id="patientDepartment"></div>
+      <div id="patientDoctor"></div>
+      <div id="patientPhone"></div>
+    </div>
+
+    <!-- TOKEN DISPLAY -->
+    <div class="token-box">
+      <div class="token-label">Your Token Number</div>
+      <div class="token-number" id="yourToken">—</div>
+    </div>
+
+    <!-- STATUS -->
+    <div class="status-box">
+      <div class="status-item">
+        <span class="status-label">Now Serving</span>
+        <span class="status-value" id="nowServing">—</span>
+      </div>
+
+      <div class="status-item">
+        <span class="status-label">Estimated Waiting Time</span>
+        <span class="status-value" id="waitTime">—</span>
+      </div>
+    </div>
+
+    <!-- NOTE -->
+    <div class="token-note">
+      Please keep this screen open or take a screenshot of your token.
+      Queue movement is handled by hospital staff.
+    </div>
+
+  </main>
+
+  <!-- FIREBASE QUEUE LOGIC -->
+  <script type="module">
+    import { db } from "./firebase.js";
+    import {
+      ref,
+      onValue
+    } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
+
+    /* ===============================
+       LOAD CURRENT PATIENT (LOCAL CACHE)
+       (Token ID only – queue is Firebase)
+    =============================== */
+    const patientRaw = localStorage.getItem("currentPatient");
+    if (!patientRaw) {
+      window.location.href = "index.html";
+    }
+
+    const patient = JSON.parse(patientRaw);
+
+    document.getElementById("patientName").innerText =
+      "Name: " + patient.name;
+
+    document.getElementById("patientAgeGender").innerText =
+      "Age / Gender: " + patient.age + " / " + patient.gender;
+
+    document.getElementById("patientDepartment").innerText =
+      "Department: " + patient.department;
+
+    document.getElementById("patientDoctor").innerText =
+      "Preferred Doctor: " + patient.doctor;
+
+    document.getElementById("patientPhone").innerText =
+      "Mobile: " + patient.phone;
+
+    document.getElementById("yourToken").innerText = patient.token;
+
+    /* ===============================
+       FIREBASE QUEUE REFERENCES
+    =============================== */
+    const queueRef = ref(db, "queues/walkin");
+    const metaRef = ref(db, "queues/meta");
+
+    let currentServingToken = null;
+    let tokenOrder = [];
+
+    /* ===============================
+       LISTEN: NOW SERVING
+    =============================== */
+    onValue(metaRef, (snap) => {
+      if (snap.exists()) {
+        currentServingToken = snap.val().currentServingToken || null;
+        document.getElementById("nowServing").innerText =
+          currentServingToken || "—";
+      }
+    });
+
+    /* ===============================
+       LISTEN: WALK-IN QUEUE
+    =============================== */
+    onValue(queueRef, (snap) => {
+      if (!snap.exists()) {
+        document.getElementById("waitTime").innerText = "—";
+        return;
+      }
+
+      const data = snap.val();
+
+      // Sort tokens by creation time
+      tokenOrder = Object.values(data)
+        .sort((a, b) => a.createdAt - b.createdAt)
+        .map(p => p.token);
+
+      if (!currentServingToken) {
+        document.getElementById("waitTime").innerText = "—";
+        return;
+      }
+
+      const myIndex = tokenOrder.indexOf(patient.token);
+      const servingIndex = tokenOrder.indexOf(currentServingToken);
+
+      if (myIndex === -1 || servingIndex === -1) {
+        document.getElementById("waitTime").innerText = "—";
+        return;
+      }
+
+      const ahead = myIndex - servingIndex;
+
+      document.getElementById("waitTime").innerText =
+        ahead <= 0
+          ? "You are next"
+          : `~${ahead * 5} minutes (${ahead} ahead)`;
+    });
+  </script>
+
+</body>
+</html>

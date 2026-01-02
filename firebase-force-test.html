@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<body>
+  <h3>Firebase Force Test</h3>
+  <button id="create">Create Queue Node</button>
+
+  <script type="module">
+    import { db } from "./firebase.js";
+    import { ref, set } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
+
+    document.getElementById("create").onclick = async () => {
+      await set(ref(db, "queues/DQMS_QUEUE_OPD_GEN_GEN1/1111111111"), {
+        phone: "1111111111",
+        name: "TEST PATIENT",
+        status: "Waiting",
+        priority: "Normal",
+        time: Date.now()
+      });
+
+      alert("Queue node created");
+    };
+  </script>
+</body>
+</html>

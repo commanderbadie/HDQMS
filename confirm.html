@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Appointment Confirmation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <main class="page-container">
+    <h1 class="page-title">Appointment Confirmation</h1>
+
+    <p><strong>Token:</strong> <span id="cToken"></span></p>
+    <p><strong>Date:</strong> <span id="cDate"></span></p>
+    <p><strong>Time:</strong> <span id="cTime"></span></p>
+  </main>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    cToken.textContent = params.get("token");
+    cDate.textContent = params.get("date");
+    cTime.textContent = params.get("time");
+  </script>
+
+</body>
+</html>

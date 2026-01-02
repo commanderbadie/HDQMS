@@ -1,0 +1,470 @@
+:root {
+  --primary-blue: #0f4c75;
+  --secondary-blue: #1b6ca8;
+  --light-bg: #f6f9fc;
+  --text-dark: #1e2a38;
+  --border-light: #e3e8ee;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+}
+
+body {
+  background: var(--light-bg);
+  color: var(--text-dark);
+}
+
+/* ================= HEADER ================= */
+
+.header {
+  padding: 24px 48px;
+  background: #ffffff;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.brand {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--primary-blue);
+}
+
+/* ================= HOME ================= */
+
+.home-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 56px 48px;
+}
+
+.headline {
+  font-size: 36px;
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+
+.subtext {
+  font-size: 16px;
+  color: #4a5b6b;
+  max-width: 700px;
+  margin-bottom: 48px;
+  line-height: 1.6;
+}
+
+/* ================= ACTION CARDS ================= */
+
+.actions {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  margin-bottom: 48px;
+}
+
+.action-card {
+  background: #ffffff;
+  padding: 32px;
+  border-radius: 8px;
+  border: 1px solid var(--border-light);
+}
+
+.action-card.primary {
+  border: 2px solid var(--primary-blue);
+}
+
+.action-card.subtle {
+  background: #fbfdff;
+}
+
+.action-card h2 {
+  font-size: 20px;
+  margin-bottom: 12px;
+}
+
+.action-card p {
+  font-size: 15px;
+  line-height: 1.6;
+  margin-bottom: 24px;
+  color: #445566;
+}
+
+/* ================= BUTTONS ================= */
+
+.btn {
+  padding: 12px 20px;
+  font-size: 14px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: var(--primary-blue);
+  color: #ffffff;
+}
+
+/* ✅ ONLY CHANGE HERE */
+.btn-secondary {
+  background: var(--primary-blue);
+  color: #ffffff;
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--primary-blue);
+  border: 1px solid var(--primary-blue);
+}
+
+/* ================= TOKEN EXPLAINER ================= */
+
+.token-explainer {
+  background: #ffffff;
+  padding: 24px 32px;
+  border-radius: 6px;
+  border: 1px solid var(--border-light);
+}
+
+.token-explainer h3 {
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+.token-explainer p {
+  font-size: 15px;
+  color: #4a5b6b;
+  line-height: 1.6;
+}
+
+/* ================= TOKEN PAGE ================= */
+
+.token-container {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 80px 32px;
+  text-align: center;
+}
+
+.token-title {
+  font-size: 28px;
+  font-weight: 500;
+  margin-bottom: 32px;
+}
+
+.token-box {
+  border: 2px solid var(--primary-blue);
+  border-radius: 10px;
+  padding: 40px;
+  margin-bottom: 40px;
+  background: #ffffff;
+}
+
+.token-label {
+  font-size: 16px;
+  color: #5a6b7c;
+  margin-bottom: 12px;
+}
+
+.token-number {
+  font-size: 56px;
+  font-weight: 600;
+  color: var(--primary-blue);
+}
+
+.status-box {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.status-item {
+  flex: 1;
+  background: #ffffff;
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  padding: 24px;
+}
+
+.status-label {
+  display: block;
+  font-size: 14px;
+  color: #6b7c8d;
+  margin-bottom: 8px;
+}
+
+.status-value {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.token-note {
+  font-size: 14px;
+  color: #5a6b7c;
+  line-height: 1.6;
+}
+
+/* ================= INLINE WARNINGS ================= */
+
+.inline-warning {
+  margin-bottom: 24px;
+  padding: 16px;
+  border-radius: 6px;
+  background: #fff4f4;
+  color: #8a1f1f;
+  font-size: 14px;
+  border: 1px solid #f1c1c1;
+}
+
+/* ================= WALK-IN PATIENT FORM ================= */
+
+.form-row {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.form-group label {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 6px;
+  color: var(--text-dark);
+}
+
+.form-group input {
+  padding: 12px;
+  font-size: 14px;
+  border-radius: 6px;
+  border: 1px solid var(--border-light);
+  background: #ffffff;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--primary-blue);
+}
+
+.required {
+  color: #c0392b;
+  font-weight: 600;
+}
+
+.inline-note {
+  margin-top: 16px;
+  font-size: 13px;
+  color: #5a6b7c;
+  line-height: 1.6;
+}
+
+form .btn {
+  margin-top: 12px;
+}
+
+/* ================= SHARED FORM LAYOUT ================= */
+
+.page-container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 0 16px;
+}
+
+.page-title {
+  text-align: center;
+  font-size: 26px;
+  margin-bottom: 6px;
+}
+
+.page-subtitle {
+  text-align: center;
+  font-size: 14px;
+  color: #6b7280;
+  margin-bottom: 32px;
+}
+
+.form-container {
+  background: #f9fafb;
+  padding: 32px;
+  border-radius: 12px;
+}
+
+.form-row.three {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.form-row.two {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  font-size: 14px;
+}
+
+.form-action {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.primary-btn {
+  padding: 12px 28px;
+  font-size: 15px;
+  background: #0f4c75;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* ================= CONFIRMATION ================= */
+
+.confirmation-box {
+  margin-top: 30px;
+  padding: 20px;
+  background: #ecfdf5;
+  border-radius: 10px;
+  border: 1px solid #10b981;
+}
+
+.confirmation-box h2 {
+  margin-bottom: 8px;
+}
+
+.confirmation-note {
+  font-size: 13px;
+  margin-top: 10px;
+}
+
+.secondary-btn {
+  margin-top: 12px;
+  padding: 10px 16px;
+  border: 1px solid #0f4c75;
+  background: transparent;
+  color: #0f4c75;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* ================= ADMIN APPOINTMENT BUTTONS ================= */
+
+.small-btn {
+  padding: 4px 8px;
+  font-size: 12px;
+  margin: 2px;
+  cursor: pointer;
+}
+
+.small-btn.warn {
+  background: #f59e0b;
+  color: #000;
+}
+
+.small-btn.danger {
+  background: #dc2626;
+  color: #fff;
+}
+/* =========================
+   TOP NAVIGATION BAR
+========================= */
+
+.top-nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 96px;              /* REVO-style height */
+  padding: 0 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--primary-blue);
+  z-index: 1000;
+}
+
+
+/* LEFT */
+.nav-left .brand {
+  font-size: 20px;
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: 2px;
+}
+
+/* RIGHT */
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 26px;
+}
+
+.nav-link {
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.nav-link.active {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+/* Push content below fixed navbar */
+body {
+  padding-top: 96px;
+}
+
+.nav-logo {
+  height: 72px;              /* BIG like REVO */
+  width: auto;
+  margin-right: 18px;
+}
+/* =========================
+   FORCED REVO-STYLE HEADER
+========================= */
+
+/* FORCE NAVBAR SIZE */
+.top-nav {
+  height: 110px !important;
+  padding: 0 60px !important;
+  align-items: center !important;
+}
+
+/* FORCE LEFT ALIGNMENT */
+.nav-left {
+  display: flex !important;
+  align-items: center !important;
+}
+
+/* FORCE LOGO SIZE & POSITION */
+.nav-logo {
+  height: 96px !important;
+    /* BIG like REVO */
+  width: auto !important;
+  margin-right: 20px !important;
+  position: relative !important;
+  top: -4px !important;         /* visual lift */
+}
+
+/* FORCE BRAND TEXT BALANCE */
+.brand {
+  font-size: 24px !important;
+  font-weight: 600 !important;
+  letter-spacing: 2px !important;
+}
+
+/* FORCE BODY OFFSET */
+body {
+  padding-top: 110px !important;
+}

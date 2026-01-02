@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Hospital Care Access</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- TOP NAVBAR -->
+  <header class="top-nav">
+    <div class="nav-left">
+      <!-- LOGO ADDED HERE -->
+      <img src="assets/DQMS LOGO.png" alt="DQMS Logo" class="nav-logo">
+      <div class="brand">DQMS</div>
+    </div>
+
+    <nav class="nav-right">
+      <a href="#" class="nav-link active">Home</a>
+      <a href="#" class="nav-link">About</a>
+      <a href="#" class="nav-link">Services</a>
+      <a href="#" class="nav-link">Departments</a>
+      <a href="#" class="nav-link">Contact</a>
+    </nav>
+  </header>
+
+  <!-- HOME HERO -->
+  <main class="home-container">
+
+    <!-- HERO INTRO -->
+    <section class="hero">
+      <h1 class="headline">
+        Digital Queue Management System
+      </h1>
+
+      <p class="subtext">
+        A web-based platform to manage hospital queues digitally,
+        reduce patient waiting time, and ensure priority-based care delivery.
+      </p>
+    </section>
+
+    <!-- PRIMARY ACTIONS -->
+    <section class="actions">
+
+      <div class="action-card primary">
+        <h2>Get Token (Walk-In)</h2>
+        <p>
+          For patients visiting the hospital without an appointment.
+          You will receive a token number and live waiting updates.
+        </p>
+        <button
+          class="btn btn-primary"
+          onclick="window.location.href='token-details.html'">
+          Get Token
+        </button>
+      </div>
+
+      <div class="action-card primary">
+        <h2>Book Appointment</h2>
+        <p>
+          Schedule a consultation for a specific date and time.
+          Recommended for planned visits.
+        </p>
+        <button
+          class="btn btn-secondary"
+          onclick="window.location.href='auth.html'">
+          Book Appointment
+        </button>
+      </div>
+
+      <div class="action-card subtle">
+        <h2>Existing Patient / Sign In</h2>
+        <p>
+          Access your existing appointments or patient details
+          using your registered email.
+        </p>
+        <button class="btn btn-outline">
+          Sign In
+        </button>
+      </div>
+
+    </section>
+
+    <!-- TOKEN EXPLANATION -->
+    <section class="token-explainer">
+      <h3>What is a token?</h3>
+      <p>
+        A token is a number assigned to walk-in patients.
+        It shows your position in the hospital queue and updates live as patients are served.
+      </p>
+    </section>
+
+  </main>
+
+</body>
+</html>
